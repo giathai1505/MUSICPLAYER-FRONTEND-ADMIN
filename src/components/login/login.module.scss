@@ -1,0 +1,206 @@
+.login {
+  position: relative;
+  background: url("../../assets/images/BackGround-Login.png") no-repeat
+    center/cover;
+  width: 100%;
+  height: 100vh;
+}
+.main {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 771px;
+  height: 800px;
+  background-color: #333333;
+  box-shadow: 0px 109px 337px rgba(0, 0, 0, 0.0815322),
+    0px 45.5376px 140.791px rgba(0, 0, 0, 0.117129),
+    0px 24.3466px 75.2734px rgba(0, 0, 0, 0.145),
+    0px 13.6485px 42.1976px rgba(0, 0, 0, 0.172871),
+    0px 7.24861px 22.4108px rgba(0, 0, 0, 0.208468),
+    0px 3.01631px 9.32565px rgba(0, 0, 0, 0.29);
+  border-radius: 20px;
+  z-index: 1;
+  overflow: hidden;
+}
+.login-form,
+.register-form,
+.forgotPassword-form,
+.newPassword-form {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background-color: #333333;
+  transition: all 0.25s linear;
+}
+
+.register-form,
+.forgotPassword-form,
+.newPassword-form {
+  transform: translateX(100%);
+  z-index: 10;
+}
+.logo {
+  width: 120px;
+  height: 110px;
+  margin: 42px 0 14px 0;
+  img {
+    width: 100%;
+
+    object-fit: cover;
+  }
+}
+.title {
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 48px;
+  display: flex;
+  align-items: center;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-bottom: 32px;
+}
+.text {
+  font-family: "Allerta Stencil";
+  font-weight: 400;
+  font-size: 38px;
+  line-height: 49px;
+  /* identical to box height */
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.form {
+  margin-top: 46px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 100px;
+
+  &-input {
+    margin: 5px 5px;
+    border: 2px solid white;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 9999px;
+    width: 100%;
+    height: 50px;
+    outline: none;
+    background-color: transparent;
+  }
+}
+.action {
+  display: flex;
+  justify-content: space-between;
+}
+.btn_login {
+  border: none;
+  outline: none;
+  background-color: #4269e2;
+  color: white;
+  border-radius: 30px;
+  width: 233px;
+  padding: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  cursor: pointer;
+  backface-visibility: hidden;
+  transition: all 0.3s;
+  background: linear-gradient(45deg, #3b5998, #0078d7);
+  box-shadow: 0px 4px 30px rgb(43 98 169 / 50%);
+}
+
+.forgotPassword-form .action,
+.newPassword-form .action {
+  justify-content: center;
+  margin: 40px 0;
+}
+
+.btn_register {
+  display: block;
+  margin: 0 auto;
+}
+.btn_forgot {
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  text-decoration: underline;
+}
+.social {
+  display: block;
+  margin-top: 50px;
+  text-align: center;
+  p {
+    color: white;
+    font-size: 24px;
+  }
+  button {
+    background-color: white;
+    border: none;
+    outline: none;
+    width: 125px;
+    height: 50px;
+    border-radius: 40px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+.forgotPassword-form .social {
+  margin: auto 0 40px;
+  p:first-child {
+    margin-bottom: 40px;
+  }
+}
+.register-form .social {
+  display: flex;
+  align-items: center;
+  p {
+    margin-bottom: 0;
+  }
+  button {
+    margin-left: 30px;
+  }
+}
+.question {
+  display: block;
+  margin-bottom: auto;
+  button {
+    background-color: transparent;
+    width: max-content;
+    color: white;
+  }
+}
+
+.errorMsg {
+  padding: 0 25px;
+  max-width: 100%;
+  font-size: 0.8rem;
+  color: rgb(248, 106, 106);
+}
+
+input.input-errors,
+select.input-errors {
+  margin: 5px 5px;
+  border: 2px solid rgb(248, 106, 106);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  width: 100%;
+  height: 50px;
+  outline: none;
+  background-color: transparent;
+}

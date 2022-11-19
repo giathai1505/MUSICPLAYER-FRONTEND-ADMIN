@@ -1,0 +1,19 @@
+.home-container {
+  height: calc(100vh - 70px);
+}
+.title {
+  font-size: 32px;
+  font-weight: bold;
+  color: white;
+}
+
+.content {
+  display: flex;
+  padding: 0 10px;
+}
+
+tbody td .icon,
+.icon-heart {
+  font-size: 20px;
+  margin: 0 10px;
+}

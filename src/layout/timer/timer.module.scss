@@ -1,0 +1,137 @@
+.timer {
+  height: calc(100vh - 70px);
+}
+.box {
+  width: 330px;
+  margin: 0 auto;
+  background-color: #34224f;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+.title {
+  color: white;
+}
+.time-picker {
+  position: relative;
+  width: max-content;
+  background-color: #ffffff1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 15px 19px 20px 20px;
+  border-radius: 10px;
+}
+.dot {
+  font-size: 34px;
+  margin: 0 10px;
+}
+.control {
+  display: flex;
+  align-items: center;
+
+  input {
+    width: 60px;
+    height: 40px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: white;
+    font-size: 42px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+  }
+  label {
+    font-size: 18px;
+    color: #ffffff80;
+    font-weight: 500;
+    font-size: 16px;
+    // pointer-events: none;
+    user-select: none;
+  }
+}
+
+.time-input {
+  display: flex;
+  justify-content: center;
+  width: 120px;
+  border-bottom: 3px solid #ccc;
+}
+.time-input.focus {
+  border-color: #9b4de0;
+}
+
+.time-option {
+  display: none;
+  position: absolute;
+  top: 80%;
+  height: 170px;
+  overflow: auto;
+  width: 120px;
+  z-index: 999;
+  background-color: #34224f;
+  border-radius: 5px;
+  text-align: center;
+
+  &::-webkit-scrollbar {
+    width: 7px;
+
+    background-color: #34224f;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #2d1c41;
+    border-radius: 999px;
+  }
+}
+.time-input.focus > .time-option {
+  display: block;
+}
+
+// .time-option.active {
+//     display: block;
+// }
+.time-input.focus .action {
+  opacity: 1 !important;
+}
+.time-option-item {
+  padding: 10px 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #ffffff1a;
+  }
+}
+
+.desc {
+  font-size: 16px;
+  text-align: center;
+  padding: 20px 0;
+  color: #ccc;
+  font-weight: 600;
+}
+.action {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  background-color: #9b4de0;
+  border: none;
+  height: 50px;
+  color: white;
+  font-size: 18px;
+  border-radius: 999px;
+  opacity: 0.5;
+  text-decoration: none;
+  cursor: not-allowed;
+  pointer-events: none;
+  &:hover {
+    color: white;
+  }
+}
+.action.active {
+  opacity: 1;
+  pointer-events: visible;
+  cursor: pointer !important;
+}

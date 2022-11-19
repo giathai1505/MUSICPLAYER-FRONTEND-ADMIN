@@ -1,0 +1,128 @@
+.header {
+  position: fixed;
+  height: 70px;
+  background: rgba(162, 162, 162, 0.42);
+  display: flex;
+  align-items: center;
+  right: 0;
+  width: calc(100% - 300px);
+  z-index: 999999;
+}
+
+.userName {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  color: white;
+  margin-left: 150px;
+  margin-right: 50px;
+}
+
+.header-app-list {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 50px;
+  .timer {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin-right: 80px;
+  }
+}
+
+.authen {
+  margin-left: auto;
+  margin-right: 50px;
+}
+.btn-login {
+  display: block;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+  background-color: #4b305b;
+  padding: 10px 20px;
+  color: white;
+  cursor: pointer;
+}
+.authen {
+  cursor: pointer;
+  width: 180px;
+  position: relative;
+  z-index: 999999900;
+}
+.user {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.menu-user {
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  background-color: #3381a9;
+
+  width: 180px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  z-index: 999999;
+  &-item {
+    list-style-type: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: 500;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #eee;
+    }
+  }
+}
+.authen:hover > .menu-user {
+  opacity: 1;
+  visibility: visible;
+}
+.menu-user-link {
+  border: none;
+  background-color: transparent;
+  color: white;
+  width: 100%;
+  text-align: left;
+  padding: 0 !important;
+  font-weight: 500 !important;
+  text-decoration: none;
+  &:hover {
+    color: white;
+    background-color: transparent;
+  }
+}
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+.authen .name {
+  width: 100px;
+  font-weight: bold;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0 5px;
+}
+
+.name {
+  color: white;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 20px;
+}

@@ -1,0 +1,33 @@
+.ant-table {
+  color: white !important;
+  background-color: transparent !important;
+  font-size: 15px !important;
+}
+.ant-table-thead > tr > th {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 16px !important;
+  background: transparent !important;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ant-table-tbody > tr.ant-table-row:hover > td,
+.ant-table-tbody > tr > td.ant-table-cell-row-hover {
+  background: rgba(162, 162, 162, 6) !important;
+}
+
+.ant-table-tbody > tr.ant-table-row:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+.ant-table-thead > tr > th,
+.ant-table-tbody > tr > td,
+.ant-table tfoot > tr > th,
+.ant-table tfoot > tr > td {
+  padding: 8px 8px !important;
+}
+.ant-table-tbody > tr > td {
+  border-bottom: none !important;
+}
+.table > :not(caption) > * > * {
+  /* padding: 0.5rem 0.5rem; */
+  padding: 0 !important;
+}
