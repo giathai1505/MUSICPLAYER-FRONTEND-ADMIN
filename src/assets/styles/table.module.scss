@@ -1,0 +1,32 @@
+.table {
+  border-collapse: none;
+  width: 100%;
+}
+
+.table thead tr {
+  border-bottom: 2px solid white;
+}
+
+.table thead td {
+  padding-bottom: 10px;
+  color: white;
+}
+
+.table tbody td {
+  padding-top: 15px;
+  color: white;
+  vertical-align: center;
+}
+
+.table tbody tr {
+  vertical-align: center;
+
+  &:nth-child(odd) {
+    background-color: rgb(255, 255, 255, 30%);
+  }
+}
+
+tbody td .icon {
+  font-size: 20px;
+  margin: 0 10px;
+}

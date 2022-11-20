@@ -17,7 +17,8 @@ $sidebarWidth: 350px;
   width: 100%;
 }
 .content {
-  display: flex;
   margin-left: 300px;
-  margin-top: 70px;
+  min-height: 100vh;
+  padding: 80px;
+  padding-top: 100px;
 }

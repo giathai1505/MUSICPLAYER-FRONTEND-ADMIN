@@ -2,49 +2,47 @@ import React from "react";
 import classNames from "classnames/bind";
 import styles from "./sidebar.module.scss";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faLeaf, faMusic } from "@fortawesome/free-solid-svg-icons";
+import { listSidebars } from "./data";
+import { AiOutlineLogout, AiOutlineSetting } from "react-icons/ai";
+
 const cx = classNames.bind(styles);
+
 export default function Sidebar() {
   return (
     <section className={cx("sidebar")}>
-      <div className={cx("logo")}>
+      <div className="flex items-center flex-col gap-2">
         <img
+          className="w-[100px]"
           src={require("./../../assets/images/Logo-Offical-gadient.png")}
           alt="logo"
         ></img>
-        <p>Melody for emotion</p>
+        <p className="text-sm text-white">Melody for emotion</p>
       </div>
-      <div className={cx("inner")}>
+      <div className="mt-[50px] relative">
         <ul className={cx("list")}>
-          <li className={cx("item")}>
-            <Link className={cx("link")} to="/">
-              <FontAwesomeIcon
-                icon={faMusic}
-                className={cx("icon")}
-              ></FontAwesomeIcon>
-              <p className={cx("text")}>Music</p>
-            </Link>
-          </li>
-          <li className={cx("item")}>
-            <Link className={cx("link")} to="/Sound">
-              <FontAwesomeIcon
-                icon={faLeaf}
-                className={cx("icon")}
-              ></FontAwesomeIcon>
-              <p className={cx("text")}>Sound</p>
-            </Link>
-          </li>
-          <li className={cx("item")}>
-            <Link className={cx("link")} to="/favorite">
-              <FontAwesomeIcon
-                icon={faHeart}
-                className={cx("icon")}
-              ></FontAwesomeIcon>
-              <p>Favorite</p>
-            </Link>
-          </li>
+          {listSidebars.map((item, index) => {
+            return (
+              <li className={cx("item")}>
+                <Link className={cx("link")} to={item.path}>
+                  {item.icon}
+                  <p className={cx("text")}>{item.title}</p>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
+      </div>
+      <div className="absolute bottom-0">
+        <div className="flex flex-col gap-2 mb-4 ml-5">
+          <Link className={cx("link")} to="/setting">
+            <AiOutlineSetting />
+            <p className={cx("text")}>Admin</p>
+          </Link>
+          <Link className={cx("link")} to="/setting">
+            <AiOutlineLogout />
+            <p className={cx("text")}>Logout</p>
+          </Link>
+        </div>
       </div>
     </section>
   );

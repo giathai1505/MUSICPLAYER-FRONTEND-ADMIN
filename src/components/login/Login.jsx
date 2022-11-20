@@ -13,8 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 const cx = classNames.bind(styles);
 
 let initialValues = {
-  email: "19522133@gm.uit.edu.vn",
-  password: "1234",
+  email: "giathai1505@gmail.com",
+  password: "123",
 };
 
 const validationSchema = Yup.object({
@@ -29,6 +29,7 @@ const validationSchema = Yup.object({
 export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
+    toast.success("Wow so easy!");
     try {
       const result = await axios.post(
         "http://localhost:5000/api/auth/login",
@@ -39,7 +40,7 @@ export default function Login() {
         "accessToken",
         JSON.stringify(result.data.accessToken)
       );
-      toast.success("Login Successfully!");
+
       navigate("/");
     } catch (error) {
       console.log("login error:", error);
@@ -133,7 +134,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 }

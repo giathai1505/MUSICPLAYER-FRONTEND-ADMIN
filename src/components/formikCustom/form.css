@@ -1,0 +1,50 @@
+label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea,
+select {
+  width: 100% !important;
+  display: block;
+  padding: 6px 12px !important;
+  width: 250px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.radioGroup {
+  display: flex;
+}
+
+.radioCustom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 30px;
+}
+
+.radioCustom input {
+  margin-right: 10px;
+}
+
+.radioCustom label {
+  font-weight: 400;
+}
+
+.form_control {
+  margin-bottom: 20px;
+  margin-right: 20px;
+}
+
+.error {
+  color: red;
+}
