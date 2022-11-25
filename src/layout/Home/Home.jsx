@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import classNames from "classnames/bind";
-import styles from "./home.module.scss";
-import { Space, Table } from "antd";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useState } from 'react';
+import classNames from 'classnames/bind';
+import styles from './home.module.scss';
+import { Space, Table } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart as heartSolid,
   faPlay,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart as heartregular } from "@fortawesome/free-regular-svg-icons";
-import Modal from "../../components/modal/Modal";
+} from '@fortawesome/free-solid-svg-icons';
+import { faHeart as heartregular } from '@fortawesome/free-regular-svg-icons';
+import Modal from '../../components/modal/Modal';
 const cx = classNames.bind(styles);
 
 export default function Home() {
@@ -23,37 +23,37 @@ export default function Home() {
   };
   const columns = [
     {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
+      title: 'Title',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
-      title: "Artist",
-      dataIndex: "artist",
-      key: "artist",
+      title: 'Artist',
+      dataIndex: 'artist',
+      key: 'artist',
     },
     {
-      title: "Time",
-      dataIndex: "time",
-      key: "time",
+      title: 'Time',
+      dataIndex: 'time',
+      key: 'time',
     },
     {
-      title: "Action",
-      dataIndex: "Action",
-      key: "Action",
+      title: 'Action',
+      dataIndex: 'Action',
+      key: 'Action',
 
       render: (text, record, index) => (
-        <Space size="middle">
-          <div className={cx("")}>
+        <Space size='middle'>
+          <div className={cx('')}>
             <FontAwesomeIcon
               icon={faPlay}
-              className={cx("icon")}
+              className={cx('icon')}
             ></FontAwesomeIcon>
           </div>
-          <div className={cx("")}>
+          <div className={cx('')}>
             <FontAwesomeIcon
               icon={iconChange}
-              className={cx("icon-heart")}
+              className={cx('icon-heart')}
               onClick={handleFavorite}
             ></FontAwesomeIcon>
           </div>
@@ -63,37 +63,36 @@ export default function Home() {
   ];
   const data = [
     {
-      key: "1",
-      title: "The sound of a stream flowing",
-      artist: "Relaxing River Sounds",
-      time: "3:00",
+      key: '1',
+      title: 'The sound of a stream flowing',
+      artist: 'Relaxing River Sounds',
+      time: '3:00',
     },
     {
-      key: "2",
-      title: "The sound of a stream flowing",
-      artist: "Hihi",
-      time: "3:15",
+      key: '2',
+      title: 'The sound of a stream flowing',
+      artist: 'Hihi',
+      time: '3:15',
     },
     {
-      key: "4",
-      title: "The sound of a stream flowing",
-      artist: "Relaxing River Sounds",
-      time: "3:00",
+      key: '4',
+      title: 'The sound of a stream flowing',
+      artist: 'Relaxing River Sounds',
+      time: '3:00',
     },
     {
-      key: "5",
-      title: "The sound of a stream flowing",
-      artist: "Hihi",
-      time: "3:15",
+      key: '5',
+      title: 'The sound of a stream flowing',
+      artist: 'Hihi',
+      time: '3:15',
     },
   ];
 
   return (
-    <div className={cx("home-container")}>
-      <Modal></Modal>
-      <h1 className={cx("title")}>PlayList</h1>
-      <div className={cx("content")}>
-        <Table columns={columns} dataSource={data} className={cx("table")} />
+    <div className={cx('home-container')}>
+      <h1 className={cx('title')}>PlayList</h1>
+      <div className={cx('content')}>
+        <Table columns={columns} dataSource={data} className={cx('table')} />
       </div>
     </div>
   );
