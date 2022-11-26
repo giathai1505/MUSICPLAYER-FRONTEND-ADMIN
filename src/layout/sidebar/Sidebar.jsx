@@ -22,7 +22,7 @@ export default function Sidebar() {
         <ul className={cx("list")}>
           {listSidebars.map((item, index) => {
             return (
-              <li className={cx("item")}>
+              <li className={cx("item")} key={index}>
                 <Link className={cx("link")} to={item.path}>
                   {item.icon}
                   <p className={cx("text")}>{item.title}</p>

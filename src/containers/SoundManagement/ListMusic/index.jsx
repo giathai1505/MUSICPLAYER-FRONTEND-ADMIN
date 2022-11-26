@@ -1,36 +1,28 @@
-import { Button, Modal, Table } from "antd";
-import React, { useEffect, useState } from "react";
+import { Pagination, Table } from "antd";
+import React, { useState } from "react";
 import "./styles.scss";
 import { BsTrash } from "react-icons/bs";
 import { BiEdit } from "react-icons/bi";
-import { AiOutlinePlus } from "react-icons/ai";
-import AddNewModal from "./AddNewModal";
-import axios from "axios";
+import { ConvertSecondToMinute } from "../../../assets/function/StringFuction";
+import AddNewModal from "../AddNewModal";
+import DeleteModal from "../DeleteModal";
 
-const ListMusic = () => {
+const ListMusic = ({ musics, getAllAPI }) => {
   const [isShowEditModal, setIsShowEditModal] = useState(false);
-  const [isShowAddModal, setIsShowAddModal] = useState(false);
-  const [listMusics, setListMusics] = useState([]);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
 
-  const getAllMusicsAPI = async () => {
-    try {
-      const result = await axios.get("http://localhost:5000/api/sound");
-
-      if (result.data.sounds) {
-        setListMusics(result.data.sounds);
-      }
-    } catch (error) {
-      console.log("login error:", error);
-    }
-  };
-
-  useEffect(() => {
-    getAllMusicsAPI();
-  }, []);
+  const [editField, setEditField] = useState();
 
   const handleDeleteMusic = (record) => {
-    console.log(record);
+    setEditField(record);
+    setIsShowDeleteModal(true);
   };
+
+  const handleEditClick = (record) => {
+    setEditField(record);
+    setIsShowEditModal(true);
+  };
+
   const columns = [
     {
       title: "#",
@@ -53,6 +45,9 @@ const ListMusic = () => {
       title: "Time",
       dataIndex: "duration",
       key: "duration",
+      render: (text, record, index) => (
+        <span>{ConvertSecondToMinute(text)}</span>
+      ),
     },
     {
       title: "Action",
@@ -62,42 +57,61 @@ const ListMusic = () => {
 
       render: (text, record, index) => (
         <div className="flex items-center gap-2">
+          <BiEdit
+            className="cursor-pointer hover:scale-150"
+            onClick={() => handleEditClick(record)}
+          />
           <BsTrash
             className="cursor-pointer hover:scale-150"
             onClick={() => handleDeleteMusic(record)}
-          />
-          <BiEdit
-            className="cursor-pointer hover:scale-150"
-            onClick={() => setIsShowEditModal(!isShowEditModal)}
           />
         </div>
       ),
     },
   ];
 
+  const handleOnChangePage = (page) => {
+    console.log();
+  };
+
   const handleAddOk = () => {
-    getAllMusicsAPI();
-    setIsShowAddModal(false);
+    setIsShowEditModal(false);
   };
 
   const handleAddCancel = () => {
-    setIsShowAddModal(false);
+    setIsShowEditModal(false);
   };
 
-  const handleOpenAddModal = () => {
-    setIsShowAddModal(true);
+  const handleDeleteSuccess = () => {
+    setIsShowDeleteModal(false);
+  };
+
+  const handleCancelDelete = () => {
+    setIsShowDeleteModal(false);
   };
 
   return (
     <div>
-      <Button type="primary" size="large" onClick={handleOpenAddModal}>
-        Add new
-      </Button>
-      <Table columns={columns} dataSource={listMusics} />
+      <div>search box</div>
+      <Table columns={columns} dataSource={musics} pagination={false} />
+      <div className="flex justify-end mt-3">
+        <Pagination
+          onChange={handleOnChangePage}
+          total={musics.length}
+          pageSize={2}
+        />
+      </div>
       <AddNewModal
-        isShow={isShowAddModal}
+        isShow={isShowEditModal}
         onOk={handleAddOk}
         onCancel={handleAddCancel}
+        editField={editField}
+      />
+      <DeleteModal
+        isShow={isShowDeleteModal}
+        item={editField}
+        onCancel={handleCancelDelete}
+        onSuccess={handleDeleteSuccess}
       />
     </div>
   );
