@@ -50,7 +50,7 @@ export default function Search(props) {
 
   const renderData = () => {
     return dataMusic?.map((music, index) => (
-      <li className={cx("search-item")}>
+      <li className={cx("search-item")} key={index}>
         <Link className={cx("search-link")} onClick={handleClick}>
           <FontAwesomeIcon icon={faSearch} />
           <p className={cx("text")}>{music}</p>

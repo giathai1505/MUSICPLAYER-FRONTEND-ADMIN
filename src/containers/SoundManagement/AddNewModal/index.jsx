@@ -1,39 +1,63 @@
-import { Button, Modal } from "antd";
-import { Field, Form, Formik } from "formik";
+import { Modal } from "antd";
+import { Form, Formik } from "formik";
 import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
-import FormikControl from "../../../../components/formikCustom/FormikControl.js";
-import useImageUpload from "../../../../hooks/useUpLoadFile.js";
+
 import { GiSoundOn } from "react-icons/gi";
 import { AiOutlineFileImage } from "react-icons/ai";
 import axios from "axios";
 import { toast } from "react-toastify";
+import FormikControl from "../../../components/formikCustom/FormikControl.js";
+import useImageUpload from "../../../hooks/useUpLoadFile.js";
 
-let initialValues = {
-  name: "",
-  artist: "",
-  description: "",
-  file: "",
-  image: "",
-  type: "MUSIC",
-  emotion: "",
-};
+const radioOptions = [
+  { key: "MUSIC", value: "MUSIC" },
+  { key: "SOUND", value: "SOUND" },
+];
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Enter your name"),
   artist: Yup.string().required("Enter your name"),
   description: Yup.string().required("Enter your description"),
+  type: Yup.string().required("Enter type"),
   // file: Yup.string().required("Enter your file"),
   // image: Yup.string().required("Enter your image"),
   type: Yup.string().required("Enter your type"),
   emotion: Yup.string().required("Enter your emotion"),
 });
 
-const AddNewModal = ({ isShow, onOk, onCancel }) => {
+const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
   const [imageSelected, setImageSelected] = useState();
   const [audioSelected, setAudioSelected] = useState();
   const [listEmotions, setListEmotions] = useState([]);
+  const [initialValues, setInitialValues] = useState({
+    name: "",
+    artist: "",
+    description: "",
+    file: "",
+    image: "",
+    type: "",
+    emotion: "",
+  });
+
+  console.log("edit field: ", editField);
   const imageUpload = useImageUpload();
+
+  useEffect(() => {
+    if (editField) {
+      setInitialValues({
+        name: "Thái",
+        artist: editField.artist,
+        description: editField.description,
+        file: "",
+        image: "",
+        type: editField.type,
+        emotion: editField.emotion,
+      });
+      setAudioSelected({ url: editField.file, duration: editField.duration });
+      setImageSelected(editField.image);
+    }
+  }, [editField]);
 
   const getEmotionsAPI = async () => {
     try {
@@ -57,24 +81,24 @@ const AddNewModal = ({ isShow, onOk, onCancel }) => {
   }, []);
 
   const handleSubmit = async (values) => {
-    console.log(values);
+    const newValues = {
+      ...values,
+      file: audioSelected.url,
+      image: imageSelected,
+      duration: audioSelected.duration,
+    };
     try {
-      const newValues = {
-        ...values,
-        file: audioSelected.url,
-        image: imageSelected,
-        duration: audioSelected.duration,
-      };
-
-      const result = await axios.post(
-        "http://localhost:5000/api/sound/create",
-        newValues
-      );
+      if (editField) {
+        //handle add audio
+      } else {
+        console.log(newValues);
+        //handle edit audio
+        await axios.post("http://localhost:5000/api/sound/create", newValues);
+      }
       onOk();
       toast.success("Create music successfully!");
     } catch (error) {
-      console.log("login error:", error);
-      toast.error("Create music successfully!");
+      toast.error("Err. Please try again!");
     }
   };
 
@@ -96,14 +120,20 @@ const AddNewModal = ({ isShow, onOk, onCancel }) => {
         const data = await imageUpload(file);
         setImageSelected(data.url);
       } else {
-        alert("Kích thước của file quá lớn!!");
+        alert("Size of this file is so big!!");
       }
     });
   };
 
+  const handleCloseForm = () => {
+    setAudioSelected(undefined);
+    setImageSelected(undefined);
+    onCancel();
+  };
+
   return (
     <Modal
-      title="Add music"
+      title={editField ? "Edit Sound" : "Add Sound"}
       open={isShow}
       onOk={onOk}
       onCancel={onCancel}
@@ -116,18 +146,24 @@ const AddNewModal = ({ isShow, onOk, onCancel }) => {
       >
         <Form>
           <FormikControl
-            placeholder="Enter music name..."
+            placeholder="Enter music name"
             control="input"
             type="text"
             label="Name"
             name="name"
           />
           <FormikControl
-            placeholder="Enter artist name..."
+            placeholder="Enter artist name"
             control="input"
             type="text"
             label="Artist"
             name="artist"
+          />
+          <FormikControl
+            control="radio"
+            label="Type"
+            name="type"
+            options={radioOptions}
           />
           <div className="">
             <FormikControl
@@ -144,7 +180,7 @@ const AddNewModal = ({ isShow, onOk, onCancel }) => {
             <label htmlFor="audio" className="cursor-pointer">
               <div className="flex items-center gap-1 bg-primary text-white px-2 cursor-pointer py-1 rounded-lg w-fit">
                 <GiSoundOn />
-                <span>Add Sound</span>
+                <span>Add Audio</span>
               </div>
             </label>
 
@@ -153,6 +189,7 @@ const AddNewModal = ({ isShow, onOk, onCancel }) => {
                 <source src={audioSelected.url} type="audio/mpeg" />
               </audio>
             ) : null}
+
             <FormikControl
               control="input"
               type="file"
@@ -162,6 +199,7 @@ const AddNewModal = ({ isShow, onOk, onCancel }) => {
               name="image"
               hidden
             />
+
             <label htmlFor="image" className="cursor-pointer">
               <div className="flex items-center gap-1 bg-primary text-white px-2 cursor-pointer py-1 rounded-lg w-fit">
                 <AiOutlineFileImage />
