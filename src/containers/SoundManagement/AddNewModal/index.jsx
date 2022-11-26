@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import * as Yup from "yup";
 
 import { GiSoundOn } from "react-icons/gi";
@@ -20,13 +20,12 @@ const validationSchema = Yup.object({
   artist: Yup.string().required("Enter your name"),
   description: Yup.string().required("Enter your description"),
   type: Yup.string().required("Enter type"),
-  // file: Yup.string().required("Enter your file"),
-  // image: Yup.string().required("Enter your image"),
   type: Yup.string().required("Enter your type"),
   emotion: Yup.string().required("Enter your emotion"),
 });
 
 const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
+  const imageUpload = useImageUpload();
   const [imageSelected, setImageSelected] = useState();
   const [audioSelected, setAudioSelected] = useState();
   const [listEmotions, setListEmotions] = useState([]);
@@ -40,13 +39,10 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
     emotion: "",
   });
 
-  console.log("edit field: ", editField);
-  const imageUpload = useImageUpload();
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (editField) {
       setInitialValues({
-        name: "Thái",
+        name: editField.name,
         artist: editField.artist,
         description: editField.description,
         file: "",
@@ -54,8 +50,8 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
         type: editField.type,
         emotion: editField.emotion,
       });
-      setAudioSelected({ url: editField.file, duration: editField.duration });
       setImageSelected(editField.image);
+      setAudioSelected({ url: editField.file, duration: editField.duration });
     }
   }, [editField]);
 
@@ -89,14 +85,19 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
     };
     try {
       if (editField) {
-        //handle add audio
+        //handle edit audio
+        await axios.post("http://localhost:5000/api/sound/update", {
+          ...newValues,
+          soundId: editField._id,
+        });
+        toast.success("Update music successfully!");
       } else {
         console.log(newValues);
-        //handle edit audio
+        //handle add audio
         await axios.post("http://localhost:5000/api/sound/create", newValues);
+        toast.success("Create music successfully!");
       }
       onOk();
-      toast.success("Create music successfully!");
     } catch (error) {
       toast.error("Err. Please try again!");
     }
@@ -133,14 +134,20 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
 
   return (
     <Modal
-      title={editField ? "Edit Sound" : "Add Sound"}
+      title={
+        <div className="text-[20px] flex justify-center font-header">
+          {editField ? "Edit Sound" : "Add Sound"}
+        </div>
+      }
+      className="w-[800px]"
       open={isShow}
       onOk={onOk}
-      onCancel={onCancel}
+      onCancel={handleCloseForm}
       footer={null}
     >
       <Formik
         initialValues={initialValues}
+        enableReinitialize
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
@@ -166,29 +173,32 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
             options={radioOptions}
           />
           <div className="">
-            <FormikControl
-              control="input"
-              type="file"
-              id="audio"
-              label="File"
-              onChange={handleOnchangeFile}
-              value=""
-              name="file"
-              hidden
-            />
+            {editField ? null : (
+              <>
+                <FormikControl
+                  control="input"
+                  type="file"
+                  id="audio"
+                  label="File"
+                  onChange={handleOnchangeFile}
+                  value=""
+                  name="file"
+                  hidden
+                />
+                <label htmlFor="audio" className="cursor-pointer">
+                  <div className="flex items-center gap-1 bg-primary text-white px-2 cursor-pointer py-1 rounded-lg w-fit">
+                    <GiSoundOn />
+                    <span>Add Audio</span>
+                  </div>
+                </label>
 
-            <label htmlFor="audio" className="cursor-pointer">
-              <div className="flex items-center gap-1 bg-primary text-white px-2 cursor-pointer py-1 rounded-lg w-fit">
-                <GiSoundOn />
-                <span>Add Audio</span>
-              </div>
-            </label>
-
-            {audioSelected ? (
-              <audio controls="controls">
-                <source src={audioSelected.url} type="audio/mpeg" />
-              </audio>
-            ) : null}
+                {audioSelected ? (
+                  <audio controls="controls">
+                    <source src={audioSelected.url} type="audio/mpeg" />
+                  </audio>
+                ) : null}
+              </>
+            )}
 
             <FormikControl
               control="input"
@@ -210,6 +220,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
               <img src={imageSelected} alt="" className="w-[200px] rounded" />
             ) : null}
           </div>
+          <br />
           <FormikControl
             placeholder="Enter description"
             control="textarea"
@@ -226,7 +237,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
           <div className="flex gap-2 items-center justify-end mr-5">
             <span
               className="bg-white border border-solid border-black text-black cursor-pointer rounded select-none px-4 py-2"
-              onClick={onCancel}
+              onClick={handleCloseForm}
             >
               Cancel
             </span>

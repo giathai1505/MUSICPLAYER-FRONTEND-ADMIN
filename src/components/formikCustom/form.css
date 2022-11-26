@@ -46,5 +46,5 @@ select {
 }
 
 .error {
-  color: red;
+  color: #ff0000;
 }

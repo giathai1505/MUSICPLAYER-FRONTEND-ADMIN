@@ -3,3 +3,8 @@
 @tailwind utilities;
 
 @import "antd/dist/antd.css";
+
+.ant-pagination-item-active a {
+  color: #ffffff !important;
+  background-color: #1890ff;
+}
