@@ -10,7 +10,6 @@ const cx = classNames.bind(styles);
 export default function Header() {
   const [isLogin, setIsLogin] = useState();
 
- 
   const handleCloseInput = (e) => {
     const iconClose = document.querySelector(`.${cx("icon-close")}`);
     const inputText = document.querySelector(`.${cx("input-search")}`);
@@ -21,7 +20,7 @@ export default function Header() {
   return (
     <>
       <header className={cx("header")}>
-        <Search></Search>
+        {/* <Search></Search> */}
         <div className={cx("header-app-list")}>
           <Link className={cx("timer")} to="/timer">
             <img

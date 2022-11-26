@@ -1,17 +1,49 @@
-import { Pagination, Table } from "antd";
-import React, { useState } from "react";
+import { Button, Pagination, Table } from "antd";
+import React, { useEffect, useState } from "react";
 import "./styles.scss";
-import { BsTrash } from "react-icons/bs";
-import { BiEdit } from "react-icons/bi";
+import { BsPlusLg, BsTrash } from "react-icons/bs";
+import { BiEdit, BiSearchAlt2 } from "react-icons/bi";
 import { ConvertSecondToMinute } from "../../../assets/function/StringFuction";
 import AddNewModal from "../AddNewModal";
 import DeleteModal from "../DeleteModal";
+import axios from "axios";
 
-const ListMusic = ({ musics, getAllAPI }) => {
+const ListMusic = ({ type }) => {
   const [isShowEditModal, setIsShowEditModal] = useState(false);
   const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
-
+  const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [editField, setEditField] = useState();
+  const [listMusics, setListMusics] = useState([]);
+  const [searchInput, setSearchInput] = useState("");
+  const [page, setPage] = useState(0);
+
+  const getAllMusicsAPI = async (type) => {
+    try {
+      if (type === "MUSIC") {
+        const result = await axios.post(
+          "http://localhost:5000/api/sound/musics",
+          {
+            name: searchInput,
+          }
+        );
+        setListMusics(result.data.musics);
+      } else if (type === "SOUND") {
+        const result = await axios.post(
+          "http://localhost:5000/api/sound/sounds",
+          {
+            name: searchInput,
+          }
+        );
+        setListMusics(result.data.sounds);
+      }
+    } catch (error) {
+      console.log("login error:");
+    }
+  };
+
+  useEffect(() => {
+    getAllMusicsAPI(type);
+  }, [type, searchInput]);
 
   const handleDeleteMusic = (record) => {
     setEditField(record);
@@ -70,19 +102,17 @@ const ListMusic = ({ musics, getAllAPI }) => {
     },
   ];
 
-  const handleOnChangePage = (page) => {
-    console.log();
-  };
-
-  const handleAddOk = () => {
+  const handleEditOk = () => {
+    getAllMusicsAPI(type);
     setIsShowEditModal(false);
   };
 
-  const handleAddCancel = () => {
+  const handleEditCancel = () => {
     setIsShowEditModal(false);
   };
 
   const handleDeleteSuccess = () => {
+    getAllMusicsAPI(type);
     setIsShowDeleteModal(false);
   };
 
@@ -90,22 +120,56 @@ const ListMusic = ({ musics, getAllAPI }) => {
     setIsShowDeleteModal(false);
   };
 
+  const handleAddOk = () => {
+    getAllMusicsAPI(type);
+    setIsShowAddModal(false);
+  };
+
+  const handleAddCancel = () => {
+    setIsShowAddModal(false);
+  };
+
+  const handleOpenAddModal = () => {
+    setIsShowAddModal(true);
+  };
+
   return (
     <div>
-      <div>search box</div>
-      <Table columns={columns} dataSource={musics} pagination={false} />
-      <div className="flex justify-end mt-3">
-        <Pagination
-          onChange={handleOnChangePage}
-          total={musics.length}
-          pageSize={2}
-        />
+      <div className="flex justify-between">
+        <div className="flex gap-1 items-center w-[500px] bg-[#413158] px-2 rounded py-1">
+          <BiSearchAlt2 className="text-[24px] text-white" />
+          <input
+            type="text"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder="Search...."
+            className="bg-transparent outline-none border-0 text-white"
+          />
+        </div>
+        <div className="flex justify-end">
+          <Button
+            type="primary"
+            className="bg-white text-primary flex items-center gap-2"
+            size="large"
+            onClick={handleOpenAddModal}
+          >
+            <BsPlusLg />
+            Add new
+          </Button>
+        </div>
       </div>
+      <Table columns={columns} dataSource={listMusics ? listMusics : []} />
+
       <AddNewModal
         isShow={isShowEditModal}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+        editField={editField}
+      />
+      <AddNewModal
+        isShow={isShowAddModal}
         onOk={handleAddOk}
         onCancel={handleAddCancel}
-        editField={editField}
       />
       <DeleteModal
         isShow={isShowDeleteModal}
