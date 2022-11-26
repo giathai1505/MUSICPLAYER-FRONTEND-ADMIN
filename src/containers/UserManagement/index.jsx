@@ -1,37 +1,49 @@
-import { Button, Modal, Table } from 'antd';
+import { Button, Pagination, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import './styles.scss';
-import { BsTrash } from 'react-icons/bs';
-import { BiEdit } from 'react-icons/bi';
-import UserActionModal from './userActionModal';
+import { BsPlusLg, BsTrash } from 'react-icons/bs';
+import { BiEdit, BiSearchAlt2 } from 'react-icons/bi';
+import AddNewModal from './AddNewModal';
+import DeleteModal from './DeleteModal';
 import axios from 'axios';
 
 const UserManagement = () => {
   const [isShowEditModal, setIsShowEditModal] = useState(false);
+  const [isShowDeleteModal, setIsShowDeleteModal] = useState(false);
   const [isShowAddModal, setIsShowAddModal] = useState(false);
-  const [listMusics, setListMusics] = useState([]);
+  const [editField, setEditField] = useState();
+  const [listUsers, setListUsers] = useState([]);
+  const [searchInput, setSearchInput] = useState('');
+  const [page, setPage] = useState(0);
 
-  const getAllUserAPI = async () => {
+  const getAllUsersAPI = async (type) => {
     try {
-      const result = await axios.get(
-        'http://localhost:5000/api/user/admin/users'
+      const result = await axios.post(
+        'http://localhost:5000/api/user/admin/users',
+        {
+          username: searchInput,
+        }
       );
-
-      if (result.data.users) {
-        setListMusics(result.data.users);
-      }
+      setListUsers(result.data.users);
     } catch (error) {
-      console.log('login error:', error.response);
+      console.log('login error:');
     }
   };
 
   useEffect(() => {
-    getAllUserAPI();
-  }, []);
+    getAllUsersAPI();
+  }, [searchInput]);
 
   const handleDeleteMusic = (record) => {
-    console.log(record);
+    setEditField(record);
+    setIsShowDeleteModal(true);
   };
+
+  const handleEditClick = (record) => {
+    setEditField(record);
+    setIsShowEditModal(true);
+  };
+
   const columns = [
     {
       title: '#',
@@ -46,8 +58,8 @@ const UserManagement = () => {
       key: 'username',
     },
     {
-      title: 'fullName',
-      dataIndex: 'fulName',
+      title: 'Full name',
+      dataIndex: 'fullName',
       key: 'fullName',
     },
     {
@@ -63,21 +75,39 @@ const UserManagement = () => {
 
       render: (text, record, index) => (
         <div className='flex items-center gap-2'>
+          <BiEdit
+            className='cursor-pointer hover:scale-150'
+            onClick={() => handleEditClick(record)}
+          />
           <BsTrash
             className='cursor-pointer hover:scale-150'
             onClick={() => handleDeleteMusic(record)}
-          />
-          <BiEdit
-            className='cursor-pointer hover:scale-150'
-            onClick={() => setIsShowEditModal(!isShowEditModal)}
           />
         </div>
       ),
     },
   ];
 
+  const handleEditOk = () => {
+    getAllUsersAPI();
+    setIsShowEditModal(false);
+  };
+
+  const handleEditCancel = () => {
+    setIsShowEditModal(false);
+  };
+
+  const handleDeleteSuccess = () => {
+    getAllUsersAPI();
+    setIsShowDeleteModal(false);
+  };
+
+  const handleCancelDelete = () => {
+    setIsShowDeleteModal(false);
+  };
+
   const handleAddOk = () => {
-    getAllUserAPI();
+    getAllUsersAPI();
     setIsShowAddModal(false);
   };
 
@@ -91,14 +121,36 @@ const UserManagement = () => {
 
   return (
     <div>
-      <Button type='primary' size='large' onClick={handleOpenAddModal}>
-        Add new
-      </Button>
-      <Table columns={columns} dataSource={listMusics} />
-      <UserActionModal
+      <div className='flex justify-between'>
+        <div className='flex gap-1 items-center w-[500px] bg-[#413158] px-2 rounded py-1'>
+          <BiSearchAlt2 className='text-[24px] text-white' />
+          <input
+            type='text'
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder='Search....'
+            className='bg-transparent outline-none border-0 text-white'
+          />
+        </div>
+      </div>
+      <Table columns={columns} dataSource={listUsers ? listUsers : []} />
+
+      <AddNewModal
+        isShow={isShowEditModal}
+        onOk={handleEditOk}
+        onCancel={handleEditCancel}
+        editField={editField}
+      />
+      <AddNewModal
         isShow={isShowAddModal}
         onOk={handleAddOk}
         onCancel={handleAddCancel}
+      />
+      <DeleteModal
+        isShow={isShowDeleteModal}
+        item={editField}
+        onCancel={handleCancelDelete}
+        onSuccess={handleDeleteSuccess}
       />
     </div>
   );
