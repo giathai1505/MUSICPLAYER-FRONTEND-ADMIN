@@ -21,6 +21,8 @@ const KeywordManagement = () => {
       const result = await axios.post('http://localhost:5000/api/emotion', {
         name: searchInput,
       });
+
+      console.log(result.data);
       setListKeywords(result.data.emotions);
     } catch (error) {
       console.log('error:');
