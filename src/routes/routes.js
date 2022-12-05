@@ -5,7 +5,6 @@ import ChangePassword from "./../components/changePassword/ChangePassword";
 import DefaultLayout from "../layout/defaultLayout/DefaultLayout";
 import Service from "../layout/service/service";
 import Home from "../layout/Home/Home";
-import Timer from "../layout/timer/Timer";
 import Favorite from "./../layout/favorite/Favorite";
 import Sound from "./../layout/sound/sound";
 import Profile from "../layout/profile/Profile";
@@ -23,11 +22,6 @@ const routePulic = [
   {
     path: "/home",
     component: Home,
-    layout: null,
-  },
-  {
-    path: "/timer",
-    component: Timer,
     layout: null,
   },
   {
@@ -51,22 +45,6 @@ const routePulic = [
     component: Login,
     layout: "onlyLayout",
   },
-  {
-    path: "/register",
-    component: Register,
-    layout: "onlyLayout",
-  },
-  {
-    path: "/forgotPassword",
-    component: ForgotPassword,
-    layout: "onlyLayout",
-  },
-  {
-    path: "/changePassword",
-    component: ChangePassword,
-    layout: "onlyLayout",
-  },
-
   {
     path: "/profile",
     component: Profile,

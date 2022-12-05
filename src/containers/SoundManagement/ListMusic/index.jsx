@@ -1,12 +1,12 @@
-import { Button, Pagination, Table } from "antd";
-import React, { useEffect, useState } from "react";
-import "./styles.scss";
-import { BsPlusLg, BsTrash } from "react-icons/bs";
-import { BiEdit, BiSearchAlt2 } from "react-icons/bi";
-import { ConvertSecondToMinute } from "../../../assets/function/StringFuction";
-import AddNewModal from "../AddNewModal";
-import DeleteModal from "../DeleteModal";
-import axios from "axios";
+import { Button, Pagination, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
+import './styles.scss';
+import { BsPlusLg, BsTrash } from 'react-icons/bs';
+import { BiEdit, BiSearchAlt2 } from 'react-icons/bi';
+import { ConvertSecondToMinute } from '../../../assets/function/StringFuction';
+import AddNewModal from '../AddNewModal';
+import DeleteModal from '../DeleteModal';
+import axios from 'axios';
 
 const ListMusic = ({ type }) => {
   const [isShowEditModal, setIsShowEditModal] = useState(false);
@@ -14,22 +14,23 @@ const ListMusic = ({ type }) => {
   const [isShowAddModal, setIsShowAddModal] = useState(false);
   const [editField, setEditField] = useState();
   const [listMusics, setListMusics] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [page, setPage] = useState(0);
 
   const getAllMusicsAPI = async (type) => {
     try {
-      if (type === "MUSIC") {
+      if (type === 'MUSIC') {
         const result = await axios.post(
-          "http://localhost:5000/api/sound/musics",
+          'http://localhost:5000/api/sound/musics-admin',
           {
             name: searchInput,
           }
         );
+
         setListMusics(result.data.musics);
-      } else if (type === "SOUND") {
+      } else if (type === 'SOUND') {
         const result = await axios.post(
-          "http://localhost:5000/api/sound/sounds",
+          'http://localhost:5000/api/sound/sounds',
           {
             name: searchInput,
           }
@@ -37,7 +38,7 @@ const ListMusic = ({ type }) => {
         setListMusics(result.data.sounds);
       }
     } catch (error) {
-      console.log("login error:");
+      console.log('login error:');
     }
   };
 
@@ -57,44 +58,44 @@ const ListMusic = ({ type }) => {
 
   const columns = [
     {
-      title: "#",
-      dataIndex: "stt",
-      key: "stt",
-      className: "sttRow",
+      title: '#',
+      dataIndex: 'stt',
+      key: 'stt',
+      className: 'sttRow',
       render: (text, record, index) => <span>{++index}</span>,
     },
     {
-      title: "Title",
-      dataIndex: "name",
-      key: "name",
+      title: 'Title',
+      dataIndex: 'name',
+      key: 'name',
     },
     {
-      title: "Artist",
-      dataIndex: "artist",
-      key: "artist",
+      title: 'Artist',
+      dataIndex: 'artist',
+      key: 'artist',
     },
     {
-      title: "Time",
-      dataIndex: "duration",
-      key: "duration",
+      title: 'Time',
+      dataIndex: 'duration',
+      key: 'duration',
       render: (text, record, index) => (
         <span>{ConvertSecondToMinute(text)}</span>
       ),
     },
     {
-      title: "Action",
-      dataIndex: "Action",
-      key: "Action",
-      className: "actionRow",
+      title: 'Action',
+      dataIndex: 'Action',
+      key: 'Action',
+      className: 'actionRow',
 
       render: (text, record, index) => (
-        <div className="flex items-center gap-2">
+        <div className='flex items-center gap-2'>
           <BiEdit
-            className="cursor-pointer hover:scale-150"
+            className='cursor-pointer hover:scale-150'
             onClick={() => handleEditClick(record)}
           />
           <BsTrash
-            className="cursor-pointer hover:scale-150"
+            className='cursor-pointer hover:scale-150'
             onClick={() => handleDeleteMusic(record)}
           />
         </div>
@@ -135,22 +136,22 @@ const ListMusic = ({ type }) => {
 
   return (
     <div>
-      <div className="flex justify-between">
-        <div className="flex gap-1 items-center w-[500px] bg-[#413158] px-2 rounded py-1">
-          <BiSearchAlt2 className="text-[24px] text-white" />
+      <div className='flex justify-between'>
+        <div className='flex gap-1 items-center w-[500px] bg-[#413158] px-2 rounded py-1'>
+          <BiSearchAlt2 className='text-[24px] text-white' />
           <input
-            type="text"
+            type='text'
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Search...."
-            className="bg-transparent outline-none border-0 text-white"
+            placeholder='Search....'
+            className='bg-transparent outline-none border-0 text-white'
           />
         </div>
-        <div className="flex justify-end">
+        <div className='flex justify-end'>
           <Button
-            type="primary"
-            className="bg-white text-primary flex items-center gap-2"
-            size="large"
+            type='primary'
+            className='bg-white text-primary flex items-center gap-2'
+            size='large'
             onClick={handleOpenAddModal}
           >
             <BsPlusLg />
