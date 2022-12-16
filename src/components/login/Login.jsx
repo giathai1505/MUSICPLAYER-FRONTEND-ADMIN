@@ -9,12 +9,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import { Input } from '../../assets/styles';
 import 'react-toastify/dist/ReactToastify.css';
+import authAPI from '../../api/authAPI';
 
 const cx = classNames.bind(styles);
 
 let initialValues = {
-  email: 'giathai1505@gmail.com',
-  password: '123',
+  email: '',
+  password: '',
 };
 
 const validationSchema = Yup.object({
@@ -29,21 +30,18 @@ const validationSchema = Yup.object({
 export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (values) => {
-    toast.success('Wow so easy!');
     try {
-      const result = await axios.post(
-        'http://localhost:5000/api/auth/login',
-        values
-      );
+      const result = await authAPI.login(values);
+      if (result.success) {
+        localStorage.setItem('accessToken', JSON.stringify(result.accessToken));
 
-      localStorage.setItem(
-        'accessToken',
-        JSON.stringify(result.data.accessToken)
-      );
-
-      navigate('/user-management');
+        toast.success(result.message);
+        navigate('/user-management');
+      }
+      toast.error(result.message);
     } catch (error) {
       console.log('login error:', error);
+      toast.error(error.message);
     }
   };
 
@@ -91,6 +89,7 @@ export default function Login() {
                         className='rounded-full outline-none text-white px-3 py-2 bg-transparent border border-solid border-white'
                         id='password'
                         name='password'
+                        type='password'
                         placeholder='*******'
                       />
                       {errors.password && touched.password ? (
@@ -100,7 +99,7 @@ export default function Login() {
                         type='submit'
                         className='px-[50px] py-[10px] rounded-full bg-primary text-white'
                       >
-                        Submit
+                        Login
                       </button>
                       {/* <div className="flex justify-end mt-3">
                         <Link

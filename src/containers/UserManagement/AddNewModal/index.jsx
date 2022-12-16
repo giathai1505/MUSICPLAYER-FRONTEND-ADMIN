@@ -8,9 +8,9 @@ import { toast } from 'react-toastify';
 import FormikControl from '../../../components/formikCustom/FormikControl.js';
 
 const validationSchema = Yup.object({
-  username: Yup.string().required('Enter username'),
-  fullName: Yup.string().required('Enter fullName'),
-  email: Yup.string().required('Enter email'),
+  // username: Yup.string().required('Enter username'),
+  // fullName: Yup.string().required('Enter fullName'),
+  // email: Yup.string().required('Enter email'),
 });
 
 const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
@@ -67,7 +67,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
     <Modal
       title={
         <div className='text-[20px] flex justify-center font-header'>
-          {editField ? 'Edit User' : 'Add User'}
+          {editField ? 'User Information' : 'Add User'}
         </div>
       }
       className='w-[800px]'
@@ -89,6 +89,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
             type='text'
             label='Username'
             name='username'
+            disabled={true}
           />
           <FormikControl
             placeholder='Enter full name'
@@ -96,6 +97,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
             type='text'
             label='Full name'
             name='fullName'
+            disabled={true}
           />
           <FormikControl
             placeholder='Enter email'
@@ -103,6 +105,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
             type='text'
             label='Email'
             name='email'
+            disabled={true}
           />
           <div className='flex gap-2 items-center justify-end mr-5'>
             <span
@@ -111,12 +114,12 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
             >
               Cancel
             </span>
-            <button
+            {/* <button
               type='submit'
               className='bg-primary text-white rounded px-4 py-2'
             >
               Save
-            </button>
+            </button> */}
           </div>
         </Form>
       </Formik>

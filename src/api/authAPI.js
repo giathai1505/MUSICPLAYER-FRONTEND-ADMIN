@@ -2,12 +2,7 @@ import request from "./axiosClient";
 
 class AuthAPI {
   login = (params) => {
-    const url = "/api/auth/login";
-    return request.post(url, params);
-  };
-  register = (params) => {
-    console.log(params);
-    const url = "/api/auth/register";
+    const url = "/auth/login-admin";
     return request.post(url, params);
   };
 }

@@ -75,6 +75,10 @@ const UserManagement = () => {
 
       render: (text, record, index) => (
         <div className='flex items-center gap-2'>
+          <BiEdit
+            className='cursor-pointer hover:scale-150'
+            onClick={() => handleEditClick(record)}
+          />
           <BsTrash
             className='cursor-pointer hover:scale-150'
             onClick={() => handleDeleteMusic(record)}
