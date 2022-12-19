@@ -4,11 +4,20 @@ import publicRouter from "./routes/routes";
 import DefaultLayout from "./layout/defaultLayout/DefaultLayout";
 import Home from "./layout/Home/Home";
 import AuthAPI from "./api/authAPI";
+import UserManagement from "./containers/UserManagement";
 
 function App() {
   return (
     <div className="App">
       <Routes>
+        <Route
+          index
+          element={
+            <DefaultLayout>
+              <UserManagement />
+            </DefaultLayout>
+          }
+        />
         {publicRouter.map((route, idx) => {
           let Page = Home;
           let Layout = DefaultLayout;
