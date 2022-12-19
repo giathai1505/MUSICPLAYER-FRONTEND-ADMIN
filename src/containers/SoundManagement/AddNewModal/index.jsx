@@ -17,7 +17,7 @@ const radioOptions = [
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Enter your name"),
-  artist: Yup.string().required("Enter your name"),
+  artist: Yup.string().required("Enter artist name"),
   description: Yup.string().required("Enter your description"),
 });
 
