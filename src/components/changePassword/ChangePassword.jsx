@@ -32,10 +32,7 @@ export default function Login() {
     validationSchema: Yup.object({
       password: Yup.string()
         .required("Please enter your password")
-        .matches(
-          /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d][A-Za-z\d!@#$%^&*()_+]{7,25}$/,
-          "Password must have at least 8 characters and contain at least one letter, one number and a special character"
-        ),
+        .min(8, "Password must be greater than 8 characters"),
       confirmPassword: Yup.string()
         .required("Please enter your confirm password!")
         .oneOf([Yup.ref("password"), null], "password must match"),
