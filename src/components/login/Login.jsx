@@ -18,9 +18,9 @@ let initialValues = {
 };
 
 const validationSchema = Yup.object({
-  email: Yup.string().required("Enter your email"),
+  email: Yup.string().required("Please enter your email"),
   password: Yup.string()
-    .required("Enter your password")
+    .required("Please enter your password")
     .min(8, "Password must be greater than 8 characters"),
   // .matches(
   //   /^.*(?=.{8,})((?=.*[!@#$%^&*()\-_=+{};:,<.>]){1})(?=.*\d)((?=.*[a-z]){1})((?=.*[A-Z]){1}).*$/,

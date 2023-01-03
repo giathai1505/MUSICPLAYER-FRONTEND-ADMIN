@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import FormikControl from "../../../components/formikCustom/FormikControl.js";
 
 const validationSchema = Yup.object({
-  content: Yup.string().required("Enter content"),
+  content: Yup.string().required("Please enter content"),
 });
 
 const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
