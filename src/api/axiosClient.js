@@ -1,35 +1,32 @@
 import axios from "axios";
 
 const request = axios.create({
-  baseURL: "http://localhost:5000/",
-  headers: {
-    "Content-type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "POST,GET,LINK",
-  },
+  baseURL: "http://localhost:5000/api",
 });
-// axiosClient.interceptors.request.use(async (req) => {
-//   let authTokens = localStorage.getItem("authTokens")
-//     ? JSON.parse(localStorage.getItem("authTokens"))
-//     : null;
 
-//   if (authTokens) {
-//     req.headers.Authorization = `Bearer ${authTokens.accessToken}`;
-//   }
-//   return req;
-// });
+request.interceptors.request.use(async (req) => {
+  let accessToken = localStorage.getItem("accessToken")
+    ? JSON.parse(localStorage.getItem("accessToken"))
+    : null;
 
-// axiosClient.interceptors.response.use(
-//   (response) => {
-//     if (response && response.data) {
-//       return response.data;
-//     }
-//     return response;
-//   },
-//   (error) => {
-//     //handle error
-//     throw error;
-//   }
-// );
+  if (accessToken) {
+    req.headers.Authorization = `Bearer ${accessToken}`;
+  }
+  return req;
+});
+
+request.interceptors.response.use(
+  (response) => {
+    if (response && response.data) {
+      return response.data;
+    }
+    return response;
+  },
+  (error) => {
+    //handle error
+
+    return error.response.data;
+  }
+);
 
 export default request;
