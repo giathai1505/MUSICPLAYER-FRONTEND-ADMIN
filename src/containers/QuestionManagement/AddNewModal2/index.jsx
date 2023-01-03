@@ -11,12 +11,16 @@ const validationSchema = Yup.object({
   content: Yup.string().required("Enter content"),
 });
 
-const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
+const AddNewModal2 = ({ isShow, onOk, onCancel, editField }) => {
   const [emotions, setEmotions] = useState([]);
   const [listSelectEmotion, setListSelectEmotion] = useState([]);
   const [initialValues, setInitialValues] = useState({
     content: "",
   });
+  const [listQuestions, setListQuestions] = useState([]);
+  const [answerLevel1, setAnswerLevel1] = useState([]);
+  const [selectedParentEmotion, setSelectedParentEmotion] = useState();
+  const [selectedParentQuestion, setSelectedParentQuestion] = useState();
 
   const getAllEmotionsAPI = async () => {
     try {
@@ -28,8 +32,45 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
     }
   };
 
+  const getEmotionOfQuestion = async (questionID) => {
+    try {
+      const result = await axios.post(
+        "http://localhost:5000/api/question/emotion",
+        {
+          id: questionID,
+        }
+      );
+      setAnswerLevel1(result.data.question.emotions);
+    } catch (error) {
+      console.log("error:");
+    }
+  };
+
+  const getAllQuestionAPI = async () => {
+    try {
+      const result = await axios.post("http://localhost:5000/api/question", {
+        content: "",
+      });
+
+      if (result.data.questions) {
+        let newListQuestions = result.data.questions
+          .filter((item) => item.level === 1)
+          .map((item) => {
+            return {
+              key: item._id,
+              value: item.content,
+            };
+          });
+        setListQuestions(newListQuestions);
+      }
+    } catch (error) {
+      console.log("error:");
+    }
+  };
+
   useEffect(() => {
     getAllEmotionsAPI();
+    getAllQuestionAPI();
   }, []);
 
   useEffect(() => {
@@ -50,14 +91,17 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
         //handle edit audio
         await axios.post("http://localhost:5000/api/question/update", {
           ...newValues,
+
           questionId: editField._id,
           emotionIds: listSelectEmotion,
         });
         toast.success("Update question successfully!");
       } else {
-        await axios.post("http://localhost:5000/api/question/create-level-1", {
+        await axios.post("http://localhost:5000/api/question/create-level-2", {
           emotionIds: listSelectEmotion,
           ...newValues,
+          parentId: selectedParentQuestion,
+          answerParentId: selectedParentEmotion,
         });
         toast.success("Create question successfully!");
       }
@@ -83,11 +127,17 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
     onCancel();
   };
 
+  const handleSelectQuestionLevel1 = (questionID) => {
+    setSelectedParentQuestion(questionID);
+    getEmotionOfQuestion(questionID);
+    setSelectedParentEmotion(undefined);
+  };
+
   return (
     <Modal
       title={
         <div className="text-[20px] flex justify-center font-header">
-          {editField ? "Edit Question" : "Add Question"}
+          {editField ? "Edit Question" : "Add Question level 2"}
         </div>
       }
       className="w-[800px]"
@@ -113,9 +163,9 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
 
           <p className="font-bold mb-2">Answers</p>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-3">
             {emotions
-              .filter((item) => item.level === 1)
+              .filter((item) => item.level === 2)
               .map((item) => {
                 return (
                   <span
@@ -132,6 +182,30 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
                   </span>
                 );
               })}
+          </div>
+          <FormikControl
+            control="select"
+            label="Parent question"
+            name="parentId"
+            options={listQuestions}
+            onChange={(e) => handleSelectQuestionLevel1(e.target.value)}
+          />
+          <p className="font-bold mb-2">Answers level 1</p>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {answerLevel1.map((item) => {
+              return (
+                <span
+                  className={`px-3 py-1 rounded-2xl border border-solid cursor-pointer hover:bg-primary hover:text-white ${
+                    selectedParentEmotion === item._id
+                      ? "bg-primary text-white"
+                      : ""
+                  }`}
+                  onClick={() => setSelectedParentEmotion(item._id)}
+                >
+                  {item.name}
+                </span>
+              );
+            })}
           </div>
           <div className="flex gap-2 items-center justify-end mr-5">
             <span
@@ -153,4 +227,4 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
   );
 };
 
-export default AddNewModal;
+export default AddNewModal2;
