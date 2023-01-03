@@ -13,8 +13,8 @@ const radioOptions = [
 ];
 
 const validationSchema = Yup.object({
-  name: Yup.string().required("Enter username"),
-  type: Yup.string().required("Please choose level for emotion!"),
+  name: Yup.string().required("Please enter username"),
+  type: Yup.string().required("Please select level for emotion!"),
 });
 
 const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {

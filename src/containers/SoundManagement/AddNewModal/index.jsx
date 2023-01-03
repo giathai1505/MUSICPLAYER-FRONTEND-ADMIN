@@ -16,9 +16,9 @@ const radioOptions = [
 ];
 
 const validationSchema = Yup.object({
-  name: Yup.string().required("Enter your name"),
-  artist: Yup.string().required("Enter artist name"),
-  description: Yup.string().required("Enter your description"),
+  name: Yup.string().required("Please enter your name"),
+  artist: Yup.string().required("Please enter artist name"),
+  description: Yup.string().required("Please enter your description"),
 });
 
 const AddNewModal = ({ isShow, onOk, onCancel, editField, type }) => {

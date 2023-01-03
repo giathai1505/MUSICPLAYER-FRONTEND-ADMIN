@@ -1,23 +1,25 @@
-import { Modal } from 'antd';
-import { Form, Formik } from 'formik';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import * as Yup from 'yup';
+import { Modal } from "antd";
+import { Form, Formik } from "formik";
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import * as Yup from "yup";
 
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import FormikControl from '../../../components/formikCustom/FormikControl.js';
+import axios from "axios";
+import { toast } from "react-toastify";
+import FormikControl from "../../../components/formikCustom/FormikControl.js";
 
 const validationSchema = Yup.object({
-  // username: Yup.string().required('Enter username'),
-  // fullName: Yup.string().required('Enter fullName'),
-  // email: Yup.string().required('Enter email'),
+
+  username: Yup.string().required("Please enter username"),
+  fullName: Yup.string().required("Please enter fullName"),
+  email: Yup.string().required("Please enter email"),
+
 });
 
 const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
   const [initialValues, setInitialValues] = useState({
-    username: '',
-    fullName: '',
-    email: '',
+    username: "",
+    fullName: "",
+    email: "",
   });
 
   useLayoutEffect(() => {
@@ -38,7 +40,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
       if (editField) {
         //handle edit audio
         const result = await axios.post(
-          'http://localhost:5000/api/user/update',
+          "http://localhost:5000/api/user/update",
           {
             ...newValues,
             userId: editField._id,
@@ -46,7 +48,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
         );
 
         if (result.data.success) {
-          toast.success('Update user successfully!');
+          toast.success("Update user successfully!");
         } else {
           toast.error(result.data.message);
         }
@@ -55,7 +57,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
       }
       onOk();
     } catch (error) {
-      toast.error('Err. Please try again!');
+      toast.error("Err. Please try again!");
     }
   };
 
@@ -66,11 +68,13 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
   return (
     <Modal
       title={
-        <div className='text-[20px] flex justify-center font-header'>
-          {editField ? 'User Information' : 'Add User'}
+
+        <div className="text-[20px] flex justify-center font-header">
+          {editField ? "Edit User" : "Add User"}
+
         </div>
       }
-      className='w-[800px]'
+      className="w-[800px]"
       open={isShow}
       onOk={onOk}
       onCancel={handleCloseForm}
@@ -84,6 +88,7 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
       >
         <Form>
           <FormikControl
+
             placeholder='Enter username'
             control='input'
             type='text'
@@ -106,17 +111,20 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField }) => {
             label='Email'
             name='email'
             disabled={true}
+
           />
-          <div className='flex gap-2 items-center justify-end mr-5'>
+          <div className="flex gap-2 items-center justify-end mr-5">
             <span
-              className='bg-white border border-solid border-black text-black cursor-pointer rounded select-none px-4 py-2'
+              className="bg-white border border-solid border-black text-black cursor-pointer rounded select-none px-4 py-2"
               onClick={handleCloseForm}
             >
               Cancel
             </span>
-            {/* <button
-              type='submit'
-              className='bg-primary text-white rounded px-4 py-2'
+
+            <button
+              type="submit"
+              className="bg-primary text-white rounded px-4 py-2"
+
             >
               Save
             </button> */}
