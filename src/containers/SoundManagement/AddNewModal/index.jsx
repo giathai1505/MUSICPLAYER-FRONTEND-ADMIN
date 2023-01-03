@@ -55,12 +55,14 @@ const AddNewModal = ({ isShow, onOk, onCancel, editField, type }) => {
     try {
       const result = await axios.post("http://localhost:5000/api/emotion");
       if (result.data.emotions) {
-        let newListEmotions = result.data.emotions.map((item, index) => {
-          return {
-            key: item._id,
-            value: item.name,
-          };
-        });
+        let newListEmotions = result.data.emotions
+          .filter((item) => item.level === 2)
+          .map((item, index) => {
+            return {
+              key: item._id,
+              value: item.name,
+            };
+          });
         setListEmotions(newListEmotions);
       }
     } catch (error) {
