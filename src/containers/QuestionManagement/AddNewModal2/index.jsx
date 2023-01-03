@@ -61,7 +61,11 @@ const AddNewModal2 = ({ isShow, onOk, onCancel, editField }) => {
               value: item.content,
             };
           });
-        setListQuestions(newListQuestions);
+
+        setListQuestions([
+          { key: "", value: "Selec question" },
+          ...newListQuestions,
+        ]);
       }
     } catch (error) {
       console.log("error:");
@@ -192,20 +196,29 @@ const AddNewModal2 = ({ isShow, onOk, onCancel, editField }) => {
           />
           <p className="font-bold mb-2">Answers level 1</p>
           <div className="flex flex-wrap gap-2 mb-2">
-            {answerLevel1.map((item) => {
-              return (
-                <span
-                  className={`px-3 py-1 rounded-2xl border border-solid cursor-pointer hover:bg-primary hover:text-white ${
-                    selectedParentEmotion === item._id
-                      ? "bg-primary text-white"
-                      : ""
-                  }`}
-                  onClick={() => setSelectedParentEmotion(item._id)}
-                >
-                  {item.name}
-                </span>
-              );
-            })}
+            {answerLevel1.length > 0 ? (
+              <>
+                {" "}
+                {answerLevel1.map((item) => {
+                  return (
+                    <span
+                      className={`px-3 py-1 rounded-2xl border border-solid cursor-pointer hover:bg-primary hover:text-white ${
+                        selectedParentEmotion === item._id
+                          ? "bg-primary text-white"
+                          : ""
+                      }`}
+                      onClick={() => setSelectedParentEmotion(item._id)}
+                    >
+                      {item.name}
+                    </span>
+                  );
+                })}
+              </>
+            ) : (
+              <p className="ml-5 italic text-[#ff0000]">
+                Please choose parent question first
+              </p>
+            )}
           </div>
           <div className="flex gap-2 items-center justify-end mr-5">
             <span
